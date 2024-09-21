@@ -4,7 +4,6 @@ import validateRequest from '../../middleware/validateRequest';
 import { productValidations } from './product.validation';
 import { upload } from '../../utils/imageUpload';
 import parseData from '../../middleware/parseData';
-import { auth } from '../../middleware/auth';
 const router = express.Router();
 
 
@@ -15,7 +14,7 @@ router.post('/',
     ProductController.createNewProduct
 )
 
-router.get('/', auth('admin'), ProductController.getAllProductAndSearchTerm)
+router.get('/', ProductController.getAllProductAndSearchTerm)
 router.get('/:productId', ProductController.getProductById)
 router.put('/:productId', ProductController.updateProductById)
 router.delete('/:productId', ProductController.deleteProductById)
