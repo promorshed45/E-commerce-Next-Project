@@ -1,4 +1,5 @@
 import { NextResponse, NextRequest } from 'next/server';
+import { getCurrentUser } from './services/auth';
 
 const AuthRoutes = ["/login", "/register"];
 
@@ -6,25 +7,20 @@ type Role = keyof typeof roleBasedRoutes;
 
 const roleBasedRoutes = {
     user: [/^\/profile/],
-    admin: [/^\/dashboard\/admin/],
+    admin: [/^\/dashboard/],
 };
 
 // This function can be marked `async` if using `await` inside
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
-   //  const user = {
-   //      name: "Morshed",
-   //      token: "sjfdksjfsdk;",
-   //      role: "user"
-   //  };
-    const user = undefined; // Uncomment for testing unauthorized access
+    const user = await getCurrentUser();
 
     if (!user) {
         if (AuthRoutes.includes(pathname)) {
             return NextResponse.next();
         } else {
-            return NextResponse.redirect(new URL('/login', request.url));
+            return NextResponse.redirect(new URL(`/login?redirect=${pathname}`, request.url));
         }
     }
 
@@ -40,5 +36,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/login', '/register', '/profile', '/dashboard/admin/:path*'],
+    matcher: ['/login', '/register', '/profile', '/dashboard/:path*'],
 };

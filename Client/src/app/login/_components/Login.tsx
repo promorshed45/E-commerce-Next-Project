@@ -7,24 +7,37 @@ import Link from "next/link";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { zodResolver } from '@hookform/resolvers/zod';
 import loginValidationSchema from "@/schemas/login.schema";
-import { loginUser } from "@/services/auth";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useUserLogin } from "@/hooks/auth";
+import { useEffect } from "react";
+import { useUser } from "@/Providers/user.Provider";
+import { FieldValues, SubmitHandler } from "react-hook-form";
 
 const Login = () => {
+    const searchParams = useSearchParams();
+    const redirect = searchParams.get("redirect")
     const router = useRouter();
+    const {setIsLoading: userLoading } = useUser()
+    
+    const {mutate: handleUserLogin, isPending, isSuccess} = useUserLogin();
 
-    const onSubmit = (data: any) => {
-        try {
-            console.log(data);
-            loginUser(data)
-            // toast.success("Login Sucessfully")
-            router.push("/profile")
-        } catch (error: any) {
-            toast.error("Login Falied")
-            throw new Error(error.message)
-        }
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        handleUserLogin(data)
+        userLoading(true)
     };
+
+    useEffect(() => {
+        if (!!isPending && isSuccess) {
+            if (redirect) {
+                router.push(redirect);
+            } else {
+                router.push("/");
+            }
+        }
+    }, [isPending, isSuccess, redirect, router]);
+    
+
 
     return (
         <section>
@@ -46,8 +59,8 @@ const Login = () => {
                     {/* ReusableForm with ReusableInput */}
                     <ReusableForm
                         defaultValues={{
-                            "email": "user2@gmail.com",
-                            "password": "user"
+                            "email": "morshed@gmail.com",
+                            "password": "admin123"
                         }}
                         onSubmit={onSubmit} resolver={zodResolver(loginValidationSchema)}>
                         <ReusableInput

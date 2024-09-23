@@ -2,10 +2,23 @@ import { ProductService } from "./product.service";
 import catchAsync from "../../utils/catechAsync";
 import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
+import AppError from "../../errors/AppError";
+import { TImageFiles } from "../../interface/image.interface";
+import { TProduct } from "./product.interface";
 
 // Create a New Product
 const createNewProduct = catchAsync(async (req, res) => {
-    const result = await ProductService.createdProducTtoDb(req.file, req.body);
+
+    if (!req.files) {
+        throw new AppError(400, 'Please upload an image');
+      }
+
+      const result = await ProductService.createdProducTtoDb(
+          req.body as TProduct,
+          req.files as TImageFiles
+      );
+
+      console.log("controller hote", result);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,

@@ -2,14 +2,17 @@ import express from 'express';
 import { ProductController } from './product.controller';
 import validateRequest from '../../middleware/validateRequest';
 import { productValidations } from './product.validation';
-import { upload } from '../../utils/imageUpload';
-import parseData from '../../middleware/parseData';
+import { multerUpload } from '../../config/multer.config';
+import { ImageFilesArrayZodSchema } from '../../zod/image.validation';
+import validateImageFileRequest from '../../middleware/validateImageFileRequest';
+import { parseBody } from '../../middleware/parseData';
 const router = express.Router();
 
 
 router.post('/',
-    upload.single('productImage'),
-    parseData,
+    multerUpload.fields([{ name: 'productImages' }]),
+    validateImageFileRequest(ImageFilesArrayZodSchema),
+    parseBody,
     validateRequest(productValidations.createProduct),
     ProductController.createNewProduct
 )

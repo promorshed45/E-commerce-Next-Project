@@ -4,10 +4,23 @@ import catchAsync from '../utils/catechAsync';
 
 const validateRequest = (schema: AnyZodObject) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body);
-    await schema.parseAsync({
+    const parsedBody = await schema.parseAsync({
       body: req.body,
     });
+
+    req.body = parsedBody.body;
+
+    next();
+  });
+};
+
+export const validateRequestCookies = (schema: AnyZodObject) => {
+  return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const parsedCookies = await schema.parseAsync({
+      cookies: req.cookies,
+    });
+
+    req.cookies = parsedCookies.cookies;
 
     next();
   });

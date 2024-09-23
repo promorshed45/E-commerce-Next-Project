@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { AuthRoute } from "../modules/auth/auth.route";
 import { OrderRoute } from "../modules/order/order.route";
-import { ProductRoute } from "../modules/product/product.router";
+import { ProductRoute } from "../modules/product/product.route";
 import { UserRoute } from "../modules/user/user.route";
 
 

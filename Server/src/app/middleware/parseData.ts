@@ -1,8 +1,11 @@
-import { NextFunction, Request, Response } from "express";
+import AppError from '../errors/AppError';
+import catchAsync from '../utils/catechAsync';
 
-const parseData = (req: Request, res: Response, next: NextFunction) => {
-    req.body = JSON.parse(req.body.data)
-    next()
-}
+export const parseBody = catchAsync(async (req, res, next) => {
+  if (!req.body.data) {
+    throw new AppError(400, 'Please provide data in the body under data key');
+  }
+  req.body = JSON.parse(req.body.data);
 
-export default parseData;
+  next();
+});

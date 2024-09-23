@@ -1,17 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import {
-  ShoppingCart,
-  LayoutDashboard,
-  UsersRound,
-  Settings,
-  ChevronRight
-} from "lucide-react";
+import { ShoppingCart, LayoutDashboard, UsersRound, Settings, ChevronRight, ShoppingBag } from "lucide-react";
 
 import { useWindowWidth } from "@react-hook/window-size";
 import { Button } from "@/components/ui/button";
-import { Nav } from "./nav";
+import { Menu } from "./Menu";
 
 export default function SideBar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -36,30 +30,36 @@ export default function SideBar() {
           </Button>
         </div>
       )}
-      <Nav
+      <Menu
         isCollapsed={mobileWidth ? true : isCollapsed}
         links={[
           {
             title: "Dashboard",
-            href: "/",
+            href: "/dashboard/admin",
             icon: LayoutDashboard,
             variant: "default"
           },
           {
+            title: "Products",
+            href: "/dashboard/products",
+            icon: ShoppingBag,
+            variant: "ghost"
+          },
+          {
             title: "Users",
-            href: "/users",
+            href: "/dashboard/users",
             icon: UsersRound,
             variant: "ghost"
           },
           {
             title: "Ordrs",
-            href: "/orders",
+            href: "/dashboard/orders",
             icon: ShoppingCart,
             variant: "ghost"
           },
           {
             title: "Settings",
-            href: "/settings",
+            href: "/dashboard/settings",
             icon: Settings,
             variant: "ghost"
           }

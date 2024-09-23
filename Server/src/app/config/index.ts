@@ -14,6 +14,7 @@ export default {
   reset_pass_ui_link: process.env.RESET_PASSWORD_UI_LINK,
   cloudinary_cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   cloudinary_api_key: process.env.CLOUDINARY_API_KEY,
-  cloudinary_api_secret: process.env.CLOUDINARY_API_SECRET
-  
+  cloudinary_api_secret: process.env.CLOUDINARY_API_SECRET,
+  meilisearch_host: process.env.MEILISEARCH_HOST,
+  meilisearch_master_key: process.env.MEILISEARCH_MASTER_KEY 
 };

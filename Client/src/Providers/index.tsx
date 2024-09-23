@@ -1,8 +1,9 @@
 "use client";
 import { QueryClient, QueryClientProvider, } from '@tanstack/react-query'
 import { ReactNode, useState } from 'react';
-import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Toaster } from 'sonner'
+import UserProvider from './user.Provider';
 
 
 
@@ -12,9 +13,11 @@ const Providers = ({ children }: { children: ReactNode }) => {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <ReactQueryDevtools initialIsOpen={false} />
-            <Toaster position="top-center" expand={false} richColors />
-            {children}
+            <UserProvider>
+                <ReactQueryDevtools initialIsOpen={false} />
+                <Toaster position="top-center" expand={false} richColors />
+                {children}
+            </UserProvider>
         </QueryClientProvider>
     );
 };

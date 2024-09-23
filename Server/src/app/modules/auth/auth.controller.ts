@@ -6,7 +6,8 @@ import sendResponse from "../../utils/sendResponse";
 
 const createUser = catchAsync(async (req, res) => {
   
-  const result = await AuthServices.createUserIntoDB(req.file, req.body);
+  // const result = await AuthServices.createUserIntoDB(req.file, req.body);
+  const result = await AuthServices.createUserIntoDB(req.body);
 
   // console.log(req.file,req.body);
 
@@ -33,7 +34,8 @@ const loginUser = catchAsync(async (req, res) => {
     success: true,
     statusCode: 200,
     message: "User logged in successfully",
-    token: accessToken,
+    accessToken: accessToken,
+    refreshToken: refreshToken,
     data: user
   });
 });

@@ -1,10 +1,16 @@
+'use client'
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/logo.svg";
 import { LucideShoppingCart, Search } from "lucide-react";
 import NavDropdownMenu from "./NavDropdownMenu";
+import { useUser } from "@/Providers/user.Provider";
+import { Button } from "./ui/button";
 
 const NavBar = () => {
+  // const {  } = useUser();
+  const { user } = useUser()
+
   return (
     <>
       <nav className="w-full py-2">
@@ -31,9 +37,16 @@ const NavBar = () => {
                 20
               </div>
             </button>
+            {user?.email ? (
 
-            <NavDropdownMenu/>
-{/* 
+              <NavDropdownMenu />)
+              :
+              (
+                <Link href="/login">
+                  <Button> Login </Button>
+                </Link>
+              )}
+            {/* 
             <button className="flex justify-center items-center rounded-full bg-gray-100 w-10 h-10 text-gray-900 transition hover:text-gray-900/75">
               <LucideUser2 className="text-rose-500 text-center text-lg" />
             </button> */}

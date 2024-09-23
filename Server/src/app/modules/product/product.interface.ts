@@ -13,9 +13,9 @@ export type TProduct = {
     description: string;
     price: number;
     category: string;
-    tags: string[];
-    productImage: string;
-    variants: Variant[];
+    // tags: string[];
+    images?: string[];
+    // variants: Variant[];
     inventory: Inventory;
     isDeleted: boolean;
 };

@@ -3,15 +3,15 @@ import { authControllers } from "./auth.controller";
 import validateRequest from "../../middleware/validateRequest";
 import { createUserValidation } from "../user/user.validation";
 import { authValidaions } from "./auth.validation";
-import { upload } from "../../utils/imageUpload";
-import parseData from "../../middleware/parseData";
+// import { upload } from "../../utils/imageUpload";
+// import parseData from "../../middleware/parseData";
 
 const router = express.Router();
 
 router.post(
   "/register",
-  upload.single('profileImage'),
-  parseData,
+  // upload.single('profileImage'),
+  // parseData,
   validateRequest(createUserValidation),
   authControllers.createUser
 );

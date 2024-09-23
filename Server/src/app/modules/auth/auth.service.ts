@@ -8,10 +8,12 @@ import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
 import { sendEmail } from "../../utils/sendEmail";
 import bcrypt from 'bcrypt'
-import { imageUpload } from "../../utils/imageUpload";
+// import { imageUpload } from "../../utils/imageUpload";
 
 // Creates a new user into database
-const createUserIntoDB = async (file: any, payload: TUser) => {
+// const createUserIntoDB = async (file: any, payload: TUser) => {
+
+  const createUserIntoDB = async (payload: TUser) => {
 
   // Check if this user exists in the database
   const existingUser = await User.findOne({ email: payload.email });
@@ -21,29 +23,29 @@ const createUserIntoDB = async (file: any, payload: TUser) => {
   }
 
   // Extract name and email for imageName
-  const { name, email } = payload;
-  const imageName = `${name}_${email}`;
+  // const { name, email } = payload;
+  // const currentTime = new Date().toISOString().replace(/[:.]/g, '-');
+  
+  // const imageName = `${name}_${email}_${currentTime}`;
 
   // Assuming file.path is provided by the caller
-  const path = file?.path;
+  // const path = file?.path;
 
  // Upload image to Cloudinary
- const { secure_url } = await imageUpload(imageName, path);
+//  const { secure_url } = await imageUpload(imageName, path);
  
 
  // Set profileImage field in payload
- payload.profileImage = secure_url as string;
+//  payload.profileImage = secure_url as string;
 
   // Create new user in the database
   const newUser = await User.create(payload);
-  console.log("new user", newUser);
   return newUser;
 };
 
 // Login User with email & password use jwt token
 const loginUser = async (payload: TLoginUser) => {
   const user = await User.findOne({ email: payload.email }).select("+password");
-
 
   if (!user) {
     throw new Error("User not found");

@@ -9,9 +9,12 @@ interface IProps {
     label: string;
     name: string;
     placeholder: string;
+    value?: string;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-const ReusableInput = ({ required = false, type = "text", placeholder, label, name }: IProps) => {
+const ReusableInput = ({ required = false, type = "text", placeholder, label, name, value, onChange, onKeyDown}: IProps) => {
     const { register, formState: { errors } } = useFormContext();
 
     return (
@@ -24,6 +27,9 @@ const ReusableInput = ({ required = false, type = "text", placeholder, label, na
                 {...register(name, { required: required ? `${label} is required` : false })}
                 type={type}
                 placeholder={placeholder}
+                value={value}
+                onChange={onChange}
+                onKeyDown={onKeyDown}
                 className={`block w-full px-3 py-2 border ${errors[name] ? 'border-red-500' : ''} `}
                 aria-invalid={!!errors[name]}
             />

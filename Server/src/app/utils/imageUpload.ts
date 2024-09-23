@@ -24,7 +24,7 @@ export const imageUpload = async (imageName: string, path: string): Promise<Reco
                 if (error) {
                     reject(error);
                 }
-                resolve(result);
+                resolve(result!);
                 //delete a file asynchronously
                 fs.unlink(path, (err) => {
                     if (err) {

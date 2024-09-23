@@ -5,24 +5,18 @@ import { Button } from "@/components/ui/button";
 import ReusableInput from "@/components/ReusableInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ReusableTextarea from "@/components/ReusableTextarea";
-import { registerUser } from "@/services/auth";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
 import userRegistrationValidationSchema from "@/schemas/register.schema";
+import { useUserRegistration } from "@/hooks/auth";
 
 const Register = () => {
-  const {mutate: handleUserRegistration, data, isPending, isError, isSuccess} = useMutation({
-    mutationKey: ["USER_REGISTRATION"],
-    mutationFn: async (userData) => await registerUser(userData),
-  })
-
-  console.log(isError, isPending, isSuccess, data);
+  const {mutate: handleUserRegistration} = useUserRegistration();
   
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => { 
 
     const userData = {
         ...data,
+        role: "user",
         profileImage: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
     }
     console.log("ui form hote", userData);

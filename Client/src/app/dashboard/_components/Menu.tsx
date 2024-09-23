@@ -12,7 +12,7 @@ import {
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { usePathname } from "next/navigation";
 
-interface NavProps {
+interface MenuProps {
   isCollapsed: boolean;
   links: {
     title: string;
@@ -23,7 +23,7 @@ interface NavProps {
   }[];
 }
 
-export function Nav({ links, isCollapsed }: NavProps) {
+export function Menu({ links, isCollapsed }: MenuProps) {
   const pathName = usePathname();
   return (
     <TooltipProvider>

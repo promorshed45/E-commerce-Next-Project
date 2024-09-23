@@ -1,32 +1,25 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Product } from "./product.model";
 import { TProduct } from "./product.interface";
-import { imageUpload } from "../../utils/imageUpload";
+// import { addDocumentToIndex } from "../../utils/meilisearch";
+import { TImageFiles } from "../../interface/image.interface";
 
 
 // Create a New Product
-const createdProducTtoDb = async ( file: any, payload: TProduct) => {
+const createdProducTtoDb = async ( payload: TProduct, images: TImageFiles) => {
 
   const existingProduct = await Product.findOne({ name: new RegExp(`^${payload.name}$`, 'i') });
   if (existingProduct) {
     throw new Error(`${payload.name} already exists`);
   }
 
-  
-  // Extract name and email for imageName
-  const { name, category } = payload;
-  const imageName = `${name}_${category}`;
+  const { productImages } = images;
+  payload.images = productImages.map((image) => image.path);
 
-  // Assuming file.path is provided by the caller
-  const path = file?.path;
-
- // Upload image to Cloudinary
- const { secure_url } : any = await imageUpload(imageName, path);
- 
-
- // Set profileImage field in payload
- payload.productImage = secure_url;
 
   const result = await Product.create(payload);
+
+  // await addDocumentToIndex(result, "products")
   return result;
 }
 
